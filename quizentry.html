@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <!-- jQuery library -->
   <script src="/js/jquery-3.6.4.min.js"></script>
-  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+  
   <script src="/js/ads.js"></script>
 </head>
 
@@ -57,7 +57,9 @@
               <p class="text-sm text-gray-400">Watch a simple ad and get rewarded</p>
               <div class="mt-5">
                 <!-- Button to claim reward by watching an ad -->
-                <button class="default_btn w-96" onclick="RewardAd()">Claim</button>
+                <button class="default_btn w-96">
+                 <!-- onclick="RewardAd()" -->
+                Claim</button>
               </div>
             </div>
           </div>
@@ -76,7 +78,8 @@
           </div>
           <!-- Lottie animation for reward ad -->
           <div class="flex justify-end items-center col-span-3">
-            <div onclick="RewardAd()" id="lottie-container" class="inline-block" style="width: 40px; height: 40px;">
+             <!-- onclick="RewardAd()" -->
+                              <div id="lottie-container" class="inline-block" style="width: 40px; height: 40px;">
               <img src="/images/Reward.png" alt="Reward">
             </div>
           </div>
@@ -187,90 +190,95 @@
     }
 
 
-    function RewardAd() {
-      if (!window.googletag || !googletag.cmd || !googletag.enums) {
-        console.error("Google Ad Manager is not properly initialized.");
-        showToast({
-          title: "Error",
-          msg: "Ad system not ready. Please try again.",
-        });
-        return;
-      }
+  //   function RewardAd() {
+  //     if (!window.googletag || !googletag.cmd || !googletag.enums) {
+  //       console.error("Google Ad Manager is not properly initialized.");
+  //       showToast({
+  //         title: "Error",
+  //         msg: "Ad system not ready. Please try again.",
+  //       });
+  //       return;
+  //     }
 
-      googletag.cmd.push(function () {
-        try {
-          if (
-            !googletag.enums.OutOfPageFormat ||
-            !googletag.enums.OutOfPageFormat.REWARDED
-          ) {
-            console.error("Rewarded ad format not supported");
-            showToast({
-              title: "Error",
-              msg: "Rewarded ads not supported on this device.",
-            });
-            return;
-          }
+  //     googletag.cmd.push(function () {
+  //       try {
+  //         if (
+  //           !googletag.enums.OutOfPageFormat ||
+  //           !googletag.enums.OutOfPageFormat.REWARDED
+  //         ) {
+  //           console.error("Rewarded ad format not supported");
+  //           showToast({
+  //             title: "Error",
+  //             msg: "Rewarded ads not supported on this device.",
+  //           });
+  //           return;
+  //         }
 
-          const rewardedSlot = googletag
-            .defineOutOfPageSlot(
-              "/23330730517/Quizniva.com_d1",
-              googletag.enums.OutOfPageFormat.REWARDED
-            )
-            .addService(googletag.pubads());
+  //         const rewardedSlot = googletag
+  //           .defineOutOfPageSlot(
+  //             "/23330730517/Quizniva.com_d1",
+  //             googletag.enums.OutOfPageFormat.REWARDED
+  //           )
+  //           .addService(googletag.pubads());
 
-          if (!rewardedSlot) {
-            console.error("Failed to create finance rewarded ad slot");
-            showToast({ title: "Error", msg: "Failed to create reward ad." });
-            return;
-          }
+  //         if (!rewardedSlot) {
+  //           console.error("Failed to create finance rewarded ad slot");
+  //           showToast({ title: "Error", msg: "Failed to create reward ad." });
+  //           return;
+  //         }
 
-          googletag.display(rewardedSlot);
-          console.log("Attempting to display finance rewarded ad...");
+  //         googletag.display(rewardedSlot);
+  //         console.log("Attempting to display finance rewarded ad...");
 
-          const timeoutId = setTimeout(() => {
-            console.log("Finance rewarded ad timeout");
-            showToast({
-              title: "Timeout",
-              msg: "Ad took too long to load. Please try again.",
-            });
-            googletag.destroySlots([rewardedSlot]);
-          }, 10000);
+  //         const timeoutId = setTimeout(() => {
+  //           console.log("Finance rewarded ad timeout");
+  //           showToast({
+  //             title: "Timeout",
+  //             msg: "Ad took too long to load. Please try again.",
+  //           });
+  //           googletag.destroySlots([rewardedSlot]);
+  //         }, 10000);
 
-          googletag.pubads().addEventListener("rewardedSlotReady", function (evt) {
-            console.log("Finance rewarded ad ready.");
-            clearTimeout(timeoutId);
-            evt.makeRewardedVisible();
-            treasurepopremove();
-          });
+  //         googletag.pubads().addEventListener("rewardedSlotReady", function (evt) {
+  //           console.log("Finance rewarded ad ready.");
+  //           clearTimeout(timeoutId);
+  //           evt.makeRewardedVisible();
+  //           treasurepopremove();
+  //         });
 
-          googletag.pubads().addEventListener("rewardedSlotClosed", function () {
-            console.log("Finance rewarded ad closed.");
-            clearTimeout(timeoutId);
-            googletag.destroySlots([rewardedSlot]);
-            showToast({
-              title: "Reward Earned!",
-              msg: "100 coins added to your account!",
-            });
-          });
+  //         googletag.pubads().addEventListener("rewardedSlotClosed", function () {
+  //           console.log("Finance rewarded ad closed.");
+  //           clearTimeout(timeoutId);
+  //           googletag.destroySlots([rewardedSlot]);
+  //           showToast({
+  //             title: "Reward Earned!",
+  //             msg: "100 coins added to your account!",
+  //           });
+  //         });
 
-          googletag.pubads().addEventListener("rewardedSlotGranted", function () {
-            console.log("Finance reward granted.");
-            showToast({
-              title: "Success!",
-              msg: "Reward will be credited shortly.",
-            });
-          });
-        } catch (error) {
-          console.error("Error during finance rewarded ad setup:", error);
-          showToast({
-            title: "Error",
-            msg: "Failed to load rewarded ad: " + error.message,
-          });
-        }
-      });
-    }
+  //         googletag.pubads().addEventListener("rewardedSlotGranted", function () {
+  //           console.log("Finance reward granted.");
+  //           showToast({
+  //             title: "Success!",
+  //             msg: "Reward will be credited shortly.",
+  //           });
+  //         });
+  //       } catch (error) {
+  //         console.error("Error during finance rewarded ad setup:", error);
+  //         showToast({
+  //           title: "Error",
+  //           msg: "Failed to load rewarded ad: " + error.message,
+  //         });
+  //       }
+  //     });
+  //   }
 
-  </script>
+</script>
+<script>
+function startQuiz() {
+  window.location.href = "/playquiz.html";
+}
+</script>
   <script src="/data/quezentry.js"></script>
   <script>
     let allcoins = localStorage.getItem('totalcoin');
