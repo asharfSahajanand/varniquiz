@@ -169,7 +169,7 @@
   <script src="/js/footer.js"></script>
   <script>
 function RewardAd() {
-      if (adBreak !== 'function') {
+      if (typeof adBreak !== 'function') {
         // adBreak not loaded — fallback: give coins anyway
         addCoins(100);
         closereward()

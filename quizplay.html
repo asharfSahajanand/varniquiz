@@ -40,9 +40,9 @@
                     <img src="/images/logo.png" alt="Logo" class="px-2">
                 </div>
                 <!-- Lottie animation for reward ad -->
-                <div class="flex justify-end items-center col-span-3">
+                <div class="flex justify-end items-center col-span-3"
                  
-                    <!-- onclick="RewardAd()"  -->
+                    onclick="RewardAd()" >
                         <div 
                     id="lottie-container" class="inline-block"
                         style="width: 40px; height: 40px;">
@@ -158,6 +158,7 @@
     <span id="score" class="text-white"></span>
 
     <script src="/data/quizplay.js"></script>
+    
     <script>
         /*      var animation = bodymovin.loadAnimation({
                  container: document.getElementById('lottie-container'),
@@ -167,6 +168,47 @@
                  path: '/assets/images/reward_icon.json' // Path to your JSON animation file
              }); */
     </script>
+     <script>
+function RewardAd() {
+      if (adBreak !== 'function') {
+        // adBreak not loaded — fallback: give coins anyway
+        addCoins(100);
+        closereward()
+        return;
+      }
+
+      adBreak({
+        type: 'reward',
+        name: 'reward_coin',
+        beforeReward: function (showAdFn) {
+          showAdFn();
+        },
+        adDismissed: function () {
+          closereward()
+        },
+        adViewed: function () {
+          // coins are awarded in adBreakDone after full view
+        },
+        adBreakDone: function (placementInfo) {
+          console.log('breakStatus:', placementInfo.breakStatus);
+          if (placementInfo.breakStatus === 'viewed') {
+            addCoins(100);
+        
+          } else if (
+            placementInfo.breakStatus === 'noAdPreloaded' ||
+            placementInfo.breakStatus === 'noAdAvailable' ||
+            placementInfo.breakStatus === 'frequencyCapped' ||
+            placementInfo.breakStatus === 'other'
+          ) {
+            // Fallback — reward anyway so user isn't frustrated
+            addCoins(100);
+            closereward()
+          }
+        }
+      });
+    }
+</script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var progressBar = document.getElementById("progress-bar");

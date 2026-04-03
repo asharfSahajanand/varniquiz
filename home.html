@@ -28,7 +28,18 @@
     <!-- jQuery library -->
     <script src="/js/jquery-3.6.4.min.js"></script>
     <script src="/js/ads.js"></script>
-
+<script>
+    function showI(){
+                            adBreak({
+                               type: 'start',           // The type of this placement
+                               name: 'game_started',    // A descriptive name for this placement
+                               adBreakDone: (placementInfo) => {
+                                   console.log(placementInfo.breakStatus);
+                                   //    location.href = "onclickpage";
+                               },
+                            });
+                        }
+</script>
 </head>
 
 <body>
@@ -87,7 +98,7 @@
                                 d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        <span class="text-sm">Category</span>
+                        <span class="text-sm" onclick="showI()" >Category</span>
                     </button>
                     <!-- Home button -->
                     <button type="button" onclick="window.location.href='/home.html'"
@@ -99,7 +110,7 @@
                                 d="M10.7069 2.29303C10.5194 2.10556 10.2651 2.00024 9.99992 2.00024C9.73475 2.00024 9.48045 2.10556 9.29292 2.29303L2.29292 9.29303C2.11076 9.48163 2.00997 9.73423 2.01224 9.99643C2.01452 10.2586 2.11969 10.5094 2.3051 10.6948C2.49051 10.8803 2.74132 10.9854 3.00352 10.9877C3.26571 10.99 3.51832 10.8892 3.70692 10.707L3.99992 10.414V17C3.99992 17.2652 4.10528 17.5196 4.29281 17.7071C4.48035 17.8947 4.7347 18 4.99992 18H6.99992C7.26514 18 7.51949 17.8947 7.70703 17.7071C7.89456 17.5196 7.99992 17.2652 7.99992 17V15C7.99992 14.7348 8.10528 14.4805 8.29281 14.2929C8.48035 14.1054 8.7347 14 8.99992 14H10.9999C11.2651 14 11.5195 14.1054 11.707 14.2929C11.8946 14.4805 11.9999 14.7348 11.9999 15V17C11.9999 17.2652 12.1053 17.5196 12.2928 17.7071C12.4803 17.8947 12.7347 18 12.9999 18H14.9999C15.2651 18 15.5195 17.8947 15.707 17.7071C15.8946 17.5196 15.9999 17.2652 15.9999 17V10.414L16.2929 10.707C16.4815 10.8892 16.7341 10.99 16.9963 10.9877C17.2585 10.9854 17.5093 10.8803 17.6947 10.6948C17.8801 10.5094 17.9853 10.2586 17.9876 9.99643C17.9899 9.73423 17.8891 9.48163 17.7069 9.29303L10.7069 2.29303Z"
                                 fill="#ffff" />
                         </svg>
-                        <span class="text-sm">Home</span>
+                        <span class="text-sm" onclick="showI()">Home</span>
                     </button>
                     <!-- Profile button -->
                     <button type="button" onclick="window.location.href='/profile.html'"
@@ -110,7 +121,7 @@
                                 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        <span class="text-sm">Profile</span>
+                        <span class="text-sm" onclick="showI()">Profile</span>
                     </button>
                 </div>
             </div>
@@ -172,7 +183,6 @@
           console.log('breakStatus:', placementInfo.breakStatus);
           if (placementInfo.breakStatus === 'viewed') {
             addCoins(100);
-            showToast({ title: 'Congratulations!', msg: '🥳 +100 coins added!' });
           } else if (
             placementInfo.breakStatus === 'noAdPreloaded' ||
             placementInfo.breakStatus === 'noAdAvailable' ||

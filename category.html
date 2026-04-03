@@ -43,8 +43,8 @@
                         <img src="/images/logo.png" alt="Logo" class="px-2">
                     </div>
                     <!-- Lottie animation for reward ad -->
-                    <div class="flex justify-end items-center col-span-3">
-                         <!-- onclick="RewardAd()" -->
+                    <div class="flex justify-end items-center col-span-3"
+                         onclick="RewardAd()">
                          <div id="lottie-container" class="inline-block"
                             style="width: 40px; height: 40px;">
                             <img src="/images/Reward.png" alt="Reward">
@@ -114,7 +114,7 @@
                                     d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                     stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
-                            <span class="text-sm">Profile</span>
+                            <span class="text-sm" >Profile</span>
                         </button>
                     </div>
                 </div>
@@ -145,88 +145,43 @@
                 }, 3000);
             }
 
-            // function RewardAd() {
-            //     if (!window.googletag || !googletag.cmd || !googletag.enums) {
-            //         console.error("Google Ad Manager is not properly initialized.");
-            //         showToast({
-            //             title: "Error",
-            //             msg: "Ad system not ready. Please try again.",
-            //         });
-            //         return;
-            //     }
+            function RewardAd() {
+      if (adBreak !== 'function') {
+        // adBreak not loaded — fallback: give coins anyway
+        addCoins(100);
+        closereward()
+        return;
+      }
 
-            //     googletag.cmd.push(function () {
-            //         try {
-            //             if (
-            //                 !googletag.enums.OutOfPageFormat ||
-            //                 !googletag.enums.OutOfPageFormat.REWARDED
-            //             ) {
-            //                 console.error("Rewarded ad format not supported");
-            //                 showToast({
-            //                     title: "Error",
-            //                     msg: "Rewarded ads not supported on this device.",
-            //                 });
-            //                 return;
-            //             }
-
-            //             const rewardedSlot = googletag
-            //                 .defineOutOfPageSlot(
-            //                     "/23330730517/Quizniva.com_d1",
-            //                     googletag.enums.OutOfPageFormat.REWARDED
-            //                 )
-            //                 .addService(googletag.pubads());
-
-            //             if (!rewardedSlot) {
-            //                 console.error("Failed to create finance rewarded ad slot");
-            //                 showToast({ title: "Error", msg: "Failed to create reward ad." });
-            //                 return;
-            //             }
-
-            //             googletag.display(rewardedSlot);
-            //             console.log("Attempting to display finance rewarded ad...");
-
-            //             const timeoutId = setTimeout(() => {
-            //                 console.log("Finance rewarded ad timeout");
-            //                 showToast({
-            //                     title: "Timeout",
-            //                     msg: "Ad took too long to load. Please try again.",
-            //                 });
-            //                 googletag.destroySlots([rewardedSlot]);
-            //             }, 10000);
-
-            //             googletag.pubads().addEventListener("rewardedSlotReady", function (evt) {
-            //                 console.log("Finance rewarded ad ready.");
-            //                 clearTimeout(timeoutId);
-            //                 evt.makeRewardedVisible();
-            //                 treasurepopremove();
-            //             });
-
-            //             googletag.pubads().addEventListener("rewardedSlotClosed", function () {
-            //                 console.log("Finance rewarded ad closed.");
-            //                 clearTimeout(timeoutId);
-            //                 googletag.destroySlots([rewardedSlot]);
-            //                 showToast({
-            //                     title: "Reward Earned!",
-            //                     msg: "100 coins added to your account!",
-            //                 });
-            //             });
-
-            //             googletag.pubads().addEventListener("rewardedSlotGranted", function () {
-            //                 console.log("Finance reward granted.");
-            //                 showToast({
-            //                     title: "Success!",
-            //                     msg: "Reward will be credited shortly.",
-            //                 });
-            //             });
-            //         } catch (error) {
-            //             console.error("Error during finance rewarded ad setup:", error);
-            //             showToast({
-            //                 title: "Error",
-            //                 msg: "Failed to load rewarded ad: " + error.message,
-            //             });
-            //         }
-            //     });
-            // }
+      adBreak({
+        type: 'reward',
+        name: 'reward_coin',
+        beforeReward: function (showAdFn) {
+          showAdFn();
+        },
+        adDismissed: function () {
+          closereward()
+        },
+        adViewed: function () {
+          // coins are awarded in adBreakDone after full view
+        },
+        adBreakDone: function (placementInfo) {
+          console.log('breakStatus:', placementInfo.breakStatus);
+          if (placementInfo.breakStatus === 'viewed') {
+            addCoins(100);
+          } else if (
+            placementInfo.breakStatus === 'noAdPreloaded' ||
+            placementInfo.breakStatus === 'noAdAvailable' ||
+            placementInfo.breakStatus === 'frequencyCapped' ||
+            placementInfo.breakStatus === 'other'
+          ) {
+            // Fallback — reward anyway so user isn't frustrated
+            addCoins(100);
+            closereward()
+          }
+        }
+      });
+    }
 
 
             let allcoins = localStorage.getItem('totalcoin');

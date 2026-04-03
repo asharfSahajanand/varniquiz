@@ -27,7 +27,25 @@
     <!-- jQuery library -->
     <script src="/js/jquery-3.6.4.min.js"></script>
 
+<script>
+       function showI() {
+    adBreak({
+      type: 'start',           // The type of this placement
+      name: 'game_started',    // A descriptive name for this placement
+      adBreakDone: (placementInfo) => {
+        console.log(placementInfo.breakStatus);
 
+        // Agar ad successfully complete ho gaya to redirect karo
+        if (placementInfo.breakStatus === "completed") {
+          window.location.href = "/quizentry.html";
+        } else {
+          // Agar ad skip ya fail ho gaya to bhi redirect karna hai
+          window.location.href = "/quizentry.html";
+        }
+      },
+    });
+  }
+    </script> 
 
 </head>
 
@@ -47,8 +65,8 @@
                             <img src="/images/logo.png" alt="Logo" class="px-2">
                         </div>
                         <!-- Lottie animation for reward ad -->
-                        <div class="flex justify-end items-center col-span-3">
-                             <!-- onclick="RewardAd()" -->
+                        <div class="flex justify-end items-center col-span-3"
+                             onclick="RewardAd()">
                               <div id="lottie-container" class="inline-block"
                                 style="width: 40px; height: 40px;">
                                 <img src="/images/Reward.png" alt="Reward">
@@ -68,7 +86,7 @@
                         <!-- Here's subcategoyr content -->
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/vocab.png" class="w-full object-cover md:h-full"
@@ -96,7 +114,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/sports.png" class="w-full object-cover md:h-full"
@@ -123,7 +141,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/festival-min.png" class="w-full object-cover md:h-full"
@@ -150,7 +168,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/math.png" class="w-full object-cover md:h-full"
@@ -178,7 +196,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/grammar.png" class="w-full object-cover md:h-full"
@@ -207,7 +225,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/monument.png" class="w-full object-cover md:h-full"
@@ -234,7 +252,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/brand.png" class="w-full object-cover md:h-full"
@@ -263,7 +281,7 @@
 
                         <div class="col m-2 h-auto w-full">
                             <div class="q_tile h-auto ">
-                                <a href="/quizentry.html">
+                                <a href="javascript:void(0)" onclick="showI()">
                                     <div class="flex p-3 h-full">
                                         <div class="flex-none w-16 h-16 my-auto">
                                             <img src="/images/testknow.png" class="w-full object-cover md:h-full"
@@ -343,7 +361,45 @@
                 </div>
             </div>
         </div>
+        <script>
+function RewardAd() {
+      if (adBreak !== 'function') {
+        // adBreak not loaded — fallback: give coins anyway
+        addCoins(100);
+        closereward()
+        return;
+      }
 
+      adBreak({
+        type: 'reward',
+        name: 'reward_coin',
+        beforeReward: function (showAdFn) {
+          showAdFn();
+        },
+        adDismissed: function () {
+          closereward()
+        },
+        adViewed: function () {
+          // coins are awarded in adBreakDone after full view
+        },
+        adBreakDone: function (placementInfo) {
+          console.log('breakStatus:', placementInfo.breakStatus);
+          if (placementInfo.breakStatus === 'viewed') {
+            addCoins(100);
+          } else if (
+            placementInfo.breakStatus === 'noAdPreloaded' ||
+            placementInfo.breakStatus === 'noAdAvailable' ||
+            placementInfo.breakStatus === 'frequencyCapped' ||
+            placementInfo.breakStatus === 'other'
+          ) {
+            // Fallback — reward anyway so user isn't frustrated
+            addCoins(100);
+            closereward()
+          }
+        }
+      });
+    }
+</script>  
 </body>
 
 </html>
