@@ -21,28 +21,20 @@
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/jquery-3.6.4.min.js"></script>
   <link rel="preconnect" href="https://googleads.g.doubleclick.net">
-  <script src="/js/ads.js"></script>
-  
- <script>
-       function showI() {
-    adBreak({
-      type: 'start',           // The type of this placement
-      name: 'game_started',    // A descriptive name for this placement
-      adBreakDone: (placementInfo) => {
-        console.log(placementInfo.breakStatus);
+   <script src="/js/ads.js"></script>
 
-        // // Agar ad successfully complete ho gaya to redirect karo
-        // if (placementInfo.breakStatus === "completed") {
-        //   window.location.href = "/playquiz.html";
-        // } else {
-        //   // Agar ad skip ya fail ho gaya to bhi redirect karna hai
-        //   window.location.href = "/playquiz.html";
-        // }
-      },
-    });
-  }
-    </script> 
-
+  <script>
+ function showI(){
+                            adBreak({
+                               type: 'start',           // The type of this placement
+                               name: 'game_started',    // A descriptive name for this placement
+                               adBreakDone: (placementInfo) => {
+                                   console.log(placementInfo.breakStatus);
+                                   //    location.href = "onclickpage";
+                               },
+                            });
+                        }
+</script>
 
 </head>
 
@@ -54,7 +46,7 @@
     <div class="popup_model fixed flex justify-center items-center hidden z-40" id="treasure-popup">
       <div class="usr_reward bg-white rounded-lg p-6 shadow-xl">
         <div class="mt-2 flex justify-end">
-           <a href="/playquiz.html">
+          <a href="/playquiz.html">
             <span class="p-3 font-bold text-xl cursor-pointer mr-4">X</span>
           </a>
         </div>
@@ -73,15 +65,13 @@
               <p class="text-sm text-gray-400">Watch a simple ad and get rewarded</p>
               <div class="mt-5">
                 <button class="default_btn w-96 bg-blue-500 text-white py-2 px-4 rounded"
-                 onclick="RewardAd()">
-                  Claim</button>
+                 onclick="showRewardAd()" >Claim</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- Mobile view container -->
     <div class="mobile">
@@ -113,7 +103,7 @@
             </div>
           </div>
           
-
+<
           <!-- Second ad slot -->
           <div class="ads-box mb-4" style="min-height: 250px;">
             <div id="ad-slot-2" class="ad-container w-full flex justify-center"></div>
@@ -165,7 +155,7 @@
 
   <script src="/js/index.js"></script>
   <script src="/js/footer.js"></script>
-    <script>
+<script>
     window.adsbygoogle = window.adsbygoogle || [];
     var adBreak = window.adBreak = adConfig = function (o) { adsbygoogle.push(o); };
     adConfig({
@@ -212,6 +202,8 @@ function RewardAd() {
       });
     }
 </script>
+
+
 
 </body>
 
