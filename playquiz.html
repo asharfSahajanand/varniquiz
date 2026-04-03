@@ -30,7 +30,25 @@
     
     <!-- Custom ads script -->
     <script src="/js/ads.js"></script>
+ <script>
+       function showI() {
+    adBreak({
+      type: 'start',           // The type of this placement
+      name: 'game_started',    // A descriptive name for this placement
+      adBreakDone: (placementInfo) => {
+        console.log(placementInfo.breakStatus);
 
+        // Agar ad successfully complete ho gaya to redirect karo
+        if (placementInfo.breakStatus === "completed") {
+          window.location.href = "/home.html";
+        } else {
+          // Agar ad skip ya fail ho gaya to bhi redirect karna hai
+          window.location.href = "/home.html";
+        }
+      },
+    });
+  }
+    </script> 
 </head>
 
 <body>
@@ -52,7 +70,7 @@
                                         style="color: #FFD43B;"></i> 100 Coins
                                 </div>
 
-                                <button class="default_btn" onclick="closereward()">Play Quiz</button>
+                                <button class="default_btn" onclick="showI()">Play Quiz</button>
 
                                 <div class="QA_rules">
                                     <ul class="mt-1 p-3 text-gray-400 text-sm font-bold">
@@ -131,9 +149,9 @@
                 }, 50);
             }
 
-            function closereward() {
-                location.href = "/home.html";
-            }
+            // function closereward() {
+            //     location.href = "/home.html";
+            // }
 
             function showToast(e) {
                 const toast = document.createElement("div");
