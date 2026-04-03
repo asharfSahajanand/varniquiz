@@ -167,9 +167,17 @@
 
   <script src="/js/index.js"></script>
   <script src="/js/footer.js"></script>
+    <script>
+    window.adsbygoogle = window.adsbygoogle || [];
+    var adBreak = window.adBreak = adConfig = function (o) { adsbygoogle.push(o); };
+    adConfig({
+      preloadAdBreaks: 'on',
+      sound: 'off',
+    });
+  </script>
   <script>
 function RewardAd() {
-      if (typeof adBreak !== 'function') {
+      if ( adBreak !== 'function') {
         // adBreak not loaded — fallback: give coins anyway
         addCoins(100);
         closereward()
