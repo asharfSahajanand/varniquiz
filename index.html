@@ -23,8 +23,6 @@
   <link rel="preconnect" href="https://googleads.g.doubleclick.net">
   <script src="/js/ads.js"></script>
   
-
-  
  <script>
        function showI() {
     adBreak({
@@ -33,13 +31,13 @@
       adBreakDone: (placementInfo) => {
         console.log(placementInfo.breakStatus);
 
-        // Agar ad successfully complete ho gaya to redirect karo
-        if (placementInfo.breakStatus === "completed") {
-          window.location.href = "/playquiz.html";
-        } else {
-          // Agar ad skip ya fail ho gaya to bhi redirect karna hai
-          window.location.href = "/playquiz.html";
-        }
+        // // Agar ad successfully complete ho gaya to redirect karo
+        // if (placementInfo.breakStatus === "completed") {
+        //   window.location.href = "/playquiz.html";
+        // } else {
+        //   // Agar ad skip ya fail ho gaya to bhi redirect karna hai
+        //   window.location.href = "/playquiz.html";
+        // }
       },
     });
   }
@@ -56,7 +54,7 @@
     <div class="popup_model fixed flex justify-center items-center hidden z-40" id="treasure-popup">
       <div class="usr_reward bg-white rounded-lg p-6 shadow-xl">
         <div class="mt-2 flex justify-end">
-          <a href="javascript:void(0)" onclick="showI()">
+           <a href="/playquiz.html">
             <span class="p-3 font-bold text-xl cursor-pointer mr-4">X</span>
           </a>
         </div>
