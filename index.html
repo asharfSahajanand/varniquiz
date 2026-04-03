@@ -25,42 +25,25 @@
   
 
   
-  <!-- <script>
-        window.googletag = window.googletag || { cmd: [] };
-        let interstitialSlot;
+ <script>
+       function showI() {
+    adBreak({
+      type: 'start',           // The type of this placement
+      name: 'game_started',    // A descriptive name for this placement
+      adBreakDone: (placementInfo) => {
+        console.log(placementInfo.breakStatus);
 
-        googletag.cmd.push(() => {
-            // ? Define interstitial slot
-            interstitialSlot = googletag.defineOutOfPageSlot(
-                '/23330730517/quizniva.com_inter',
-                googletag.enums.OutOfPageFormat.INTERSTITIAL
-            );
-
-            if (interstitialSlot) {
-                interstitialSlot.addService(googletag.pubads());
-            }
-
-            googletag.enableServices();
-
-            // ? Preload the interstitial ad immediately after page load
-            if (interstitialSlot) {
-                googletag.display(interstitialSlot);
-            }
-        });
-
-        // ? Function to show interstitial and then call callback
-        function showInterstitialAd(callback) {
-            googletag.cmd.push(() => {
-                if (interstitialSlot) {
-                    googletag.pubads().display(interstitialSlot);
-                }
-                // ? Fast fallback: max wait 500ms
-                setTimeout(() => {
-                    if (typeof callback === 'function') callback();
-                }, 500);
-            });
+        // Agar ad successfully complete ho gaya to redirect karo
+        if (placementInfo.breakStatus === "completed") {
+          window.location.href = "/playquiz.html";
+        } else {
+          // Agar ad skip ya fail ho gaya to bhi redirect karna hai
+          window.location.href = "/playquiz.html";
         }
-    </script> -->
+      },
+    });
+  }
+    </script> 
 
 
 </head>
@@ -73,7 +56,7 @@
     <div class="popup_model fixed flex justify-center items-center hidden z-40" id="treasure-popup">
       <div class="usr_reward bg-white rounded-lg p-6 shadow-xl">
         <div class="mt-2 flex justify-end">
-          <a href="/playquiz.html">
+          <a href="javascript:void(0)" onclick="showI()">
             <span class="p-3 font-bold text-xl cursor-pointer mr-4">X</span>
           </a>
         </div>
@@ -91,9 +74,9 @@
               <h2 class="text-xl m-3 font-bold">Get Instant 100 Coins!</h2>
               <p class="text-sm text-gray-400">Watch a simple ad and get rewarded</p>
               <div class="mt-5">
-                <button class="default_btn w-96 bg-blue-500 text-white py-2 px-4 rounded">Claim</button>
-                 <!-- onclick="showRewardAd()" 
-                  Claim</button> -->
+                <button class="default_btn w-96 bg-blue-500 text-white py-2 px-4 rounded"
+                 onclick="showRewardAd()">
+                  Claim</button>
               </div>
             </div>
           </div>
@@ -184,41 +167,46 @@
 
   <script src="/js/index.js"></script>
   <script src="/js/footer.js"></script>
-<!-- <script>
-function showRewardAd() {
-  googletag.cmd.push(() => {
+  <script>
+function RewardAd() {
+      if (adBreak !== 'function') {
+        // adBreak not loaded — fallback: give coins anyway
+        addCoins(100);
+        closereward()
+        return;
+      }
 
-    if (!googletag.enums.OutOfPageFormat?.REWARDED) {
-      console.log('Rewarded not supported');
-      return;
+      adBreak({
+        type: 'reward',
+        name: 'reward_coin',
+        beforeReward: function (showAdFn) {
+          showAdFn();
+        },
+        adDismissed: function () {
+          closereward()
+        },
+        adViewed: function () {
+          // coins are awarded in adBreakDone after full view
+        },
+        adBreakDone: function (placementInfo) {
+          console.log('breakStatus:', placementInfo.breakStatus);
+          if (placementInfo.breakStatus === 'viewed') {
+            addCoins(100);
+            showToast({ title: 'Congratulations!', msg: '🥳 +100 coins added!' });
+          } else if (
+            placementInfo.breakStatus === 'noAdPreloaded' ||
+            placementInfo.breakStatus === 'noAdAvailable' ||
+            placementInfo.breakStatus === 'frequencyCapped' ||
+            placementInfo.breakStatus === 'other'
+          ) {
+            // Fallback — reward anyway so user isn't frustrated
+            addCoins(100);
+            closereward()
+          }
+        }
+      });
     }
-
-    const rewardedSlot = googletag
-      .defineOutOfPageSlot(
-        '/23330730517/Quizniva.com_rewarded',
-        googletag.enums.OutOfPageFormat.REWARDED
-      )
-      .addService(googletag.pubads());
-
-    googletag.pubads().addEventListener('rewardedSlotReady', (e) => {
-      console.log('?? Rewarded Ready');
-      e.makeRewardedVisible(); // ? ONLY AFTER CLICK
-    });
-
-    googletag.pubads().addEventListener('rewardedSlotGranted', () => {
-      console.log('? Reward Granted');
-      // ?? YAHIN COINS ADD KARO (API CALL)
-    });
-
-    googletag.pubads().addEventListener('rewardedSlotClosed', () => {
-      googletag.destroySlots([rewardedSlot]);
-    });
-
-    googletag.display(rewardedSlot);
-  });
-}
-</script> -->
-
+</script>
 
 </body>
 
