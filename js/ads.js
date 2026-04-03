@@ -1,5 +1,9 @@
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615420563101212"
-crossorigin="anonymous"></script>
+const script = document.createElement("script");
+script.async = true;
+script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615420563101212";
+script.crossOrigin = "anonymous";
+
+document.head.appendChild(script);
 
 (function () {
 
