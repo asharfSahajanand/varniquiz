@@ -28,7 +28,25 @@
   <script src="/js/jquery-3.6.4.min.js"></script>
   
   <script src="/js/ads.js"></script>
+<script>
+       function showI() {
+    adBreak({
+      type: 'start',           // The type of this placement
+      name: 'game_started',    // A descriptive name for this placement
+      adBreakDone: (placementInfo) => {
+        console.log(placementInfo.breakStatus);
 
+        // Agar ad successfully complete ho gaya to redirect karo
+        if (placementInfo.breakStatus === "completed") {
+          window.location.href = "/home.html";
+        } else {
+          // Agar ad skip ya fail ho gaya to bhi redirect karna hai
+          window.location.href = "/home.html";
+        }
+      },
+    });
+  }
+    </script> 
 </head>
 
 <div>

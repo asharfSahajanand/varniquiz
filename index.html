@@ -179,7 +179,6 @@
 function RewardAd() {
       if ( adBreak !== 'function') {
         // adBreak not loaded — fallback: give coins anyway
-        addCoins(100);
         closereward()
         return;
       }
@@ -199,7 +198,7 @@ function RewardAd() {
         adBreakDone: function (placementInfo) {
           console.log('breakStatus:', placementInfo.breakStatus);
           if (placementInfo.breakStatus === 'viewed') {
-            addCoins(100);
+  
             showToast({ title: 'Congratulations!', msg: '🥳 +100 coins added!' });
           } else if (
             placementInfo.breakStatus === 'noAdPreloaded' ||
@@ -208,7 +207,7 @@ function RewardAd() {
             placementInfo.breakStatus === 'other'
           ) {
             // Fallback — reward anyway so user isn't frustrated
-            addCoins(100);
+  
             closereward()
           }
         }
